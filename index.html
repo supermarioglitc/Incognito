@@ -1,22 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        .green-button {
-            background-color: green;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-    </style>
+  <style>
+    .draggable {
+      position: absolute;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 10px;
+      cursor: move;
+    }
+  </style>
 </head>
 <body>
-    <a href="https://roblox.com/library/13326771513" class="green-button">Da Gui!!1!1!1!</a>
+  <div id="draggableDiv" class="draggable">
+    <p id="text">Enter Text</p>
+  </div>
+
+  <script>
+    // Make the draggableDiv draggable
+    function makeDraggable(element) {
+      var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      
+      // Function to handle mouse down event
+      function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+      }
+      
+      // Function to handle drag movement
+      function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        element.style.top = (element.offsetTop - pos2) + "px";
+        element.style.left = (element.offsetLeft - pos1) + "px";
+      }
+      
+      // Function to handle mouse up event
+      function closeDragElement() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+      }
+      
+      element.onmousedown = dragMouseDown;
+    }
+    
+    // Make the draggableDiv draggable
+    makeDraggable(document.getElementById("draggableDiv"));
+  </script>
 </body>
 </html>
